@@ -6,7 +6,8 @@ from pytube import YouTube, Playlist, Channel
 def random_celeb():
     return random.choice([st.balloons()])
 
-import os
+
+
 
 # Function to download YouTube single videos
 def video(url):
@@ -14,11 +15,9 @@ def video(url):
     st.info(video_caller.title, icon="ℹ️")
     video_file = video_caller.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
     if video_file is not None:
-        video_file.download(filename='video')
+        video_file.download()
         st.success('Done!')
-        file_path = os.path.join(os.getcwd(), 'video.mp4')
-        print("File path:", file_path)  # Debug print statement
-        with open(file_path, 'rb') as file:
+        with open(video_file.default_filename, 'rb') as file:
             st.download_button('Download Video', file)
 
 # Function for downloading YouTube playlist
@@ -28,11 +27,9 @@ def playlist(url):
     for video in playlist_obj.videos:
         x = video.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
         if x is not None:
-            x.download(filename='video')
+            x.download()
             st.success('Done!')
-            file_path = os.path.join(os.getcwd(), 'video.mp4')
-            print("File path:", file_path)  # Debug print statement
-            with open(file_path, 'rb') as file:
+            with open(x.default_filename, 'rb') as file:
                 st.download_button('Download Video', file)
 
 # Function for downloading YouTube channel
@@ -42,14 +39,10 @@ def channel(url):
     for video in channel_videos.videos:
         z = video.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
         if z is not None:
-            z.download(filename='video')
+            z.download()
     st.success('Done!')
-    file_path = os.path.join(os.getcwd(), 'video.mp4')
-    print("File path:", file_path)  # Debug print statement
-    with open(file_path, 'rb') as file:
+    with open(channel_videos.channel_name, 'rb') as file:
         st.download_button('Download Channel', file)
-
-
 
 
 
