@@ -12,9 +12,9 @@ def video(url):
     st.info(video_caller.title, icon="ℹ️")
     video_file = video_caller.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
     if video_file is not None:
-        video_file.download()
+        video_file.download(filename='video')
         st.success('Done!')
-        with open(video_file.default_filename, 'rb') as file:
+        with open('video.mp4', 'rb') as file:
             st.download_button('Download Video', file)
 
 # Function for downloading YouTube playlist
@@ -24,9 +24,9 @@ def playlist(url):
     for video in playlist_obj.videos:
         x = video.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
         if x is not None:
-            x.download()
+            x.download(filename='video')
             st.success('Done!')
-            with open(x.default_filename, 'rb') as file:
+            with open('video.mp4', 'rb') as file:
                 st.download_button('Download Video', file)
 
 # Function for downloading YouTube channel
@@ -36,10 +36,11 @@ def channel(url):
     for video in channel_videos.videos:
         z = video.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
         if z is not None:
-            z.download()
+            z.download(filename='video')
     st.success('Done!')
-    with open(channel_videos.channel_name, 'rb') as file:
+    with open('video.mp4', 'rb') as file:
         st.download_button('Download Channel', file)
+
 
 
 
