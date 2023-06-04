@@ -14,7 +14,8 @@ def video(url):
     if video_file is not None:
         video_file.download()
         st.success('Done!')
-        st.download_button('Download Video', video_file.default_filename)
+        with open(video_file.default_filename, 'rb') as file:
+            st.download_button('Download Video', file)
 
 # Function for downloading YouTube playlist
 def playlist(url):
@@ -25,7 +26,8 @@ def playlist(url):
         if x is not None:
             x.download()
             st.success('Done!')
-            st.download_button('Download Video', x.default_filename)
+            with open(x.default_filename, 'rb') as file:
+                st.download_button('Download Video', file)
 
 # Function for downloading YouTube channel
 def channel(url):
@@ -36,7 +38,9 @@ def channel(url):
         if z is not None:
             z.download()
     st.success('Done!')
-    st.download_button('Download Channel', channel_videos.channel_name)
+    with open(channel_videos.channel_name, 'rb') as file:
+        st.download_button('Download Channel', file)
+
 
 
 # Integration of all above-defined functions
