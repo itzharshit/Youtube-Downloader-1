@@ -6,18 +6,23 @@ from pytube import YouTube, Playlist, Channel
 def random_celeb():
     return random.choice([st.balloons()])
 
-
-
-
 # Function to download YouTube single videos
 def video(url):
     video_caller = YouTube(url)
     st.info(video_caller.title, icon="ℹ️")
-    video_file = video_caller.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
-    if video_file is not None:
-        video_file.download()
+    streams = video_caller.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc()
+    resolutions = [f"{stream.resolution} ({stream.mime_type.split('/')[1]})" for stream in streams]
+    resolution = st.selectbox("Select Video Resolution", resolutions)
+    selected_stream = None
+    for stream in streams:
+        if f"{stream.resolution} ({stream.mime_type.split('/')[1]})" == resolution:
+            selected_stream = stream
+            break
+    
+    if selected_stream is not None:
+        selected_stream.download()
         st.success('Done!')
-        with open(video_file.default_filename, 'rb') as file:
+        with open(selected_stream.default_filename, 'rb') as file:
             st.download_button('Download Video', file)
 
 # Function for downloading YouTube playlist
@@ -44,8 +49,6 @@ def channel(url):
     with open(channel_videos.channel_name, 'rb') as file:
         st.download_button('Download Channel', file)
 
-
-
 # Integration of all above-defined functions
 st.title("YouTube Downloader")
 url = st.text_input(label="Paste your YouTube URL")
@@ -62,4 +65,3 @@ if st.button("Download"):
             random_celeb()
         except Exception as e:
             st.error(e)
-
