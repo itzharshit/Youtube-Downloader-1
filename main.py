@@ -6,6 +6,8 @@ from pytube import YouTube, Playlist, Channel
 def random_celeb():
     return random.choice([st.balloons()])
 
+import os
+
 # Function to download YouTube single videos
 def video(url):
     video_caller = YouTube(url)
@@ -14,7 +16,9 @@ def video(url):
     if video_file is not None:
         video_file.download(filename='video')
         st.success('Done!')
-        with open('video.mp4', 'rb') as file:
+        file_path = os.path.join(os.getcwd(), 'video.mp4')
+        print("File path:", file_path)  # Debug print statement
+        with open(file_path, 'rb') as file:
             st.download_button('Download Video', file)
 
 # Function for downloading YouTube playlist
@@ -26,7 +30,9 @@ def playlist(url):
         if x is not None:
             x.download(filename='video')
             st.success('Done!')
-            with open('video.mp4', 'rb') as file:
+            file_path = os.path.join(os.getcwd(), 'video.mp4')
+            print("File path:", file_path)  # Debug print statement
+            with open(file_path, 'rb') as file:
                 st.download_button('Download Video', file)
 
 # Function for downloading YouTube channel
@@ -38,8 +44,11 @@ def channel(url):
         if z is not None:
             z.download(filename='video')
     st.success('Done!')
-    with open('video.mp4', 'rb') as file:
+    file_path = os.path.join(os.getcwd(), 'video.mp4')
+    print("File path:", file_path)  # Debug print statement
+    with open(file_path, 'rb') as file:
         st.download_button('Download Channel', file)
+
 
 
 
